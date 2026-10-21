@@ -1,0 +1,52 @@
+@startuml
+skinparam classAttributeIconSize 0
+
+class Aluno {
+  - matricula: String
+  - nome: String
+  - matriculas: List<Matricula>
+  + matricular(turma: Turma): Matricula
+  + calcularMedia(disciplina: Disciplina): double
+  + obterFaltas(disciplina: Disciplina): int
+  + exibirMedia(disciplina: Disciplina): void
+  + exibirFaltas(disciplina: Disciplina): void
+  - buscarMatricula(disciplina: Disciplina): Matricula
+}
+
+class Matricula {
+  - n1: double
+  - n2: double
+  - n3: double
+  - faltas: int
+  + lancarNotas(n1: double, n2: double, n3: double): void
+  + registrarFalta(): void
+  + registrarFaltas(quantidade: int): void
+  + calcularMedia(): double
+  + obterFaltas(): int
+}
+
+class Turma {
+  - codigo: String
+  - semestre: String
+  + getMatriculas(): List<Matricula>
+}
+
+class Disciplina {
+  - codigo: String
+  - nome: String
+  - cargaHoraria: int
+  + criarTurma(codigo: String, semestre: String, professor: Professor): Turma
+}
+
+class Professor {
+  - matricula: String
+  - nome: String
+  + lecionar(disciplina: Disciplina): void
+}
+
+Aluno "1" --> "1..*" Matricula : possui
+Matricula "*" --> "1" Turma : refere-se a
+Disciplina "1" *--> "1..*" Turma : possui
+Turma "*" --> "1" Professor : é ministrada por
+Professor "*" --> "*" Disciplina : leciona
+@enduml
